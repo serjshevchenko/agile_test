@@ -23,6 +23,7 @@ def create_app(loop: t.Optional[asyncio.AbstractEventLoop] = None) -> web.Applic
         signals.connect_redis,
         signals.configure_scheduler,
         schedule_periodic_tasks,
+        signals.configure_api,
     ])
 
     # To run before shutdown

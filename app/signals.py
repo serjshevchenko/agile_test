@@ -5,6 +5,8 @@ from aiohttp import ClientSession, web
 from aioredis import create_redis_pool
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
+from app.lib.api import APIClient
+
 log = logging.getLogger(__name__)
 
 
@@ -57,3 +59,12 @@ async def configure_scheduler(app: web.Application) -> None:
 async def shutdown_scheduler(app: web.Application) -> None:
     app['scheduler'].shutdown(wait=False)
     log.info('APScheduler stopped')
+
+
+async def configure_api(app: web.Application) -> None:
+    app['api_client'] = APIClient(app)
+    # await app['api_client'].auth()
+    # print(app['api_client'].auth_token)
+    # data = await app['api_client'].images_list()
+    # print(data)
+    log.info('APIClient configured')
