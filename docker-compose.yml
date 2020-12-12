@@ -1,0 +1,27 @@
+version: '3.4'
+services:
+  _app_base: &_app_base
+    build:
+      context: ./
+      dockerfile: Dockerfile
+  _app_with_code_volumes: &_app_with_code_volumes
+    <<: *_app_base
+    volumes:
+      - .:/opt/app:delegated
+
+  server:
+    <<: *_app_with_code_volumes
+    command: python3.8 -m app /opt/app/config/config-compose.yml
+    ports:
+      - "8080:8080"
+    links:
+      - redis
+
+  redis:
+    image: redis:latest
+
+  _services:
+    image: tianon/true
+    restart: "no"
+    depends_on:
+    - redis

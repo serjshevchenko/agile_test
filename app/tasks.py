@@ -15,7 +15,7 @@ async def schedule_periodic_tasks(app: web.Application) -> None:
     scheduler.add_job(
         rebuild_image_cache,
         trigger='cron',
-        hour='*/1',
+        hour=scheduler_conf['hour_period'],
         args=[app]
     )
     scheduler.add_job(
